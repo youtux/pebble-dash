@@ -274,6 +274,7 @@ def main() -> None:
     print(arguments)
     arch = 'basalt' if arguments['--basalt'] else 'aplite'
     input_path = arguments['INPUT_PATH']
+    DOCSET_PATH = arguments['--output-path'] or 'pebble-sdk-{}.docset'.format(arch)
 
     documents_path = join(DOCSET_PATH, 'Contents', 'Resources', 'Documents')
 
