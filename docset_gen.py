@@ -271,7 +271,7 @@ def init_plist(docset_path: str, arch: str):
 
 def main() -> None:
     arguments = docopt(__doc__)
-    print(arguments)
+
     arch = 'basalt' if arguments['--basalt'] else 'aplite'
     input_path = arguments['INPUT_PATH']
     docset_path = arguments['--output-path'] or 'pebble-sdk-{}.docset'.format(arch)
