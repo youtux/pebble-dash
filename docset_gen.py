@@ -274,14 +274,14 @@ def main() -> None:
     print(arguments)
     arch = 'basalt' if arguments['--basalt'] else 'aplite'
     input_path = arguments['INPUT_PATH']
-    DOCSET_PATH = arguments['--output-path'] or 'pebble-sdk-{}.docset'.format(arch)
+    docset_path = arguments['--output-path'] or 'pebble-sdk-{}.docset'.format(arch)
 
-    documents_path = join(DOCSET_PATH, 'Contents', 'Resources', 'Documents')
+    documents_path = join(docset_path, 'Contents', 'Resources', 'Documents')
 
-    setup_tree(input_path, DOCSET_PATH)
-    init_plist(DOCSET_PATH, arch)
+    setup_tree(input_path, docset_path)
+    init_plist(docset_path, arch)
 
-    db = take_db(db_path(start=DOCSET_PATH))
+    db = take_db(db_path(start=docset_path))
 
     file_path_list = glob.glob(join(documents_path, arch.capitalize(), 'group__*.html'))
 
