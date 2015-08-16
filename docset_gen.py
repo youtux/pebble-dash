@@ -37,6 +37,23 @@ INSERT_QUERY_TEMPLATE = """
     VALUES (?,?,?)
 """
 
+INFO_PLIST_TEMPLATE = """\
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>pebble-sdk</string>
+	<key>CFBundleName</key>
+	<string>Pebble SDK ({arch})</string>
+	<key>DocSetPlatformFamily</key>
+	<string>pebble</string>
+	<key>isDashDocset</key>
+	<true/>
+</dict>
+</plist>
+"""
+
 join = os.path.join
 
 SearchIndexData = namedtuple('SearchIndexData', ['name', 'type', 'path'])
@@ -243,10 +260,13 @@ def setup_tree(input_path:str, output_path: str) -> None:
     shutil.rmtree(output_path, ignore_errors=True)
     os.makedirs(join(output_path, 'Contents', 'Resources'))
 
-    shutil.copy(join('templates', 'Info.plist'),
-                join(output_path, 'Contents', 'Resources'))
     shutil.copytree(input_path,
                     join(output_path, 'Contents', 'Resources', 'Documents'))
+
+def init_plist(docset_path: str, arch: str):
+    with io.open(join(docset_path, 'Contents', 'Info.plist'),
+                 'wt', encoding='utf-8') as output_f:
+        output_f.write(INFO_PLIST_TEMPLATE.format(arch=arch.capitalize()))
 
 
 def main() -> None:
@@ -254,11 +274,11 @@ def main() -> None:
     print(arguments)
     arch = 'basalt' if arguments['--basalt'] else 'aplite'
     input_path = arguments['INPUT_PATH']
-    DOCSET_PATH = arguments['--output-path'] or 'pebble-sdk-' + arch
 
     documents_path = join(DOCSET_PATH, 'Contents', 'Resources', 'Documents')
 
     setup_tree(input_path, DOCSET_PATH)
+    init_plist(DOCSET_PATH, arch)
 
     db = take_db(db_path(start=DOCSET_PATH))
 
