@@ -28,7 +28,6 @@ from operator import itemgetter
 from typing import Iterable, Tuple
 import bs4
 from docopt import docopt
-import sys
 
 DOC_PATH = 'pebble-sdk.docset/Contents/Resources/Documents'
 
@@ -117,7 +116,6 @@ class HTMLParser:
             if anchor_id:
                 path += "#" + str(anchor_id)
 
-            # relpath = os.path.relpath(path, start=DOC_PATH)
             yield SearchIndexData(obj_name, type_, path)
 
     def parse(self) -> Iterable[Result]:
