@@ -49,6 +49,8 @@ INFO_PLIST_TEMPLATE = """\
     <string>pebble</string>
     <key>isDashDocset</key>
     <true/>
+    <key>isJavaScriptEnabled</key>
+    <true/>
     <key>dashIndexFilePath</key>
     <string>{arch}/modules.html</string>
 </dict>
