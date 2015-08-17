@@ -262,6 +262,8 @@ def setup_tree(input_path:str, output_path: str) -> None:
 
     shutil.copytree(input_path,
                     join(output_path, 'Contents', 'Resources', 'Documents'))
+    shutil.copy('icon.png', output_path)
+    shutil.copy('icon@2x.png', output_path)
 
 def init_plist(docset_path: str, arch: str):
     with io.open(join(docset_path, 'Contents', 'Info.plist'),
