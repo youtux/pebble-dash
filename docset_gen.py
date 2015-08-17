@@ -41,14 +41,14 @@ INFO_PLIST_TEMPLATE = """\
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleIdentifier</key>
-	<string>pebble-sdk</string>
-	<key>CFBundleName</key>
-	<string>Pebble SDK ({arch})</string>
-	<key>DocSetPlatformFamily</key>
-	<string>pebble</string>
-	<key>isDashDocset</key>
-	<true/>
+    <key>CFBundleIdentifier</key>
+    <string>pebble-sdk</string>
+    <key>CFBundleName</key>
+    <string>Pebble SDK ({arch})</string>
+    <key>DocSetPlatformFamily</key>
+    <string>pebble</string>
+    <key>isDashDocset</key>
+    <true/>
     <key>dashIndexFilePath</key>
     <string>{arch}/modules.html</string>
 </dict>
