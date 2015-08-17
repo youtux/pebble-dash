@@ -49,6 +49,8 @@ INFO_PLIST_TEMPLATE = """\
 	<string>pebble</string>
 	<key>isDashDocset</key>
 	<true/>
+    <key>dashIndexFilePath</key>
+    <string>{arch}/modules.html</string>
 </dict>
 </plist>
 """
@@ -264,7 +266,7 @@ def setup_tree(input_path:str, output_path: str) -> None:
 def init_plist(docset_path: str, arch: str):
     with io.open(join(docset_path, 'Contents', 'Info.plist'),
                  'wt', encoding='utf-8') as output_f:
-        output_f.write(INFO_PLIST_TEMPLATE.format(arch=arch.capitalize()))
+        output_f.write(INFO_PLIST_TEMPLATE.format(arch=arch))
 
 
 def main() -> None:
