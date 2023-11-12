@@ -118,7 +118,7 @@ class HTMLParser:
 
             path = self.path
             if anchor_id:
-                path += "#" + str(anchor_id)
+                path += f"#{str(anchor_id)}"
 
             yield SearchIndexData(obj_name, type_, path)
 
@@ -128,8 +128,7 @@ class HTMLParser:
                 key=itemgetter(0),
                 ):
             elements = [t[1] for t in group]
-            for r in self.parse_section(section_name, elements):
-                yield r
+            yield from self.parse_section(section_name, elements)
 
 
 regexs = {
@@ -177,16 +176,13 @@ def parse_declaration(type_: str, text: str) -> str:
     if type_ == 'Function':
         match = regexs['function'].match(text)
         result = match.group('fn_name')
-    if type_ == 'Struct':
-        match = regexs['last_word'].match(text)
-        result = match.group('name')
-    if type_ == 'Enum':
-        match = regexs['last_word'].match(text)
-        result = match.group('name')
-    if type_ == 'Macro':
+    elif type_ == 'Macro':
         match = regexs['macro'].match(text)
         result = match.group('name')
-    if type_ == 'Type':
+    elif type_ in {'Struct', 'Enum'}:
+        match = regexs['last_word'].match(text)
+        result = match.group('name')
+    elif type_ == 'Type':
         match_fn = regexs['typedef_function'].match(text)
         match = regexs['typedef'].match(text)
         match_last_word = regexs['last_word'].match(text)
@@ -278,7 +274,7 @@ def main() -> None:
 
     arch = 'basalt' if arguments['--basalt'] else 'aplite'
     input_path = arguments['INPUT_PATH']
-    docset_path = arguments['--output-path'] or 'pebble-sdk-{}.docset'.format(arch)
+    docset_path = arguments['--output-path'] or f'pebble-sdk-{arch}.docset'
 
     documents_path = join(docset_path, 'Contents', 'Resources', 'Documents')
 
@@ -296,9 +292,7 @@ def main() -> None:
             p = (HTMLParser(input_f, relpath)
                 .parse()
             )
-            for insert_tuple in p:
-                insert_data_list.append(insert_tuple)
-
+            insert_data_list.extend(iter(p))
     with db:
         for t in insert_data_list:
             print("Inserting ", t)
